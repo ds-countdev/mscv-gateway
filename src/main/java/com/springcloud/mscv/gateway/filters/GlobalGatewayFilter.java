@@ -15,7 +15,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class GlobalGatewayFilter implements GlobalFilter , Ordered{
+public class GlobalGatewayFilter implements GlobalFilter, Ordered {
 
     private final Logger log = LoggerFactory.getLogger(GlobalGatewayFilter.class);
 
@@ -29,7 +29,6 @@ public class GlobalGatewayFilter implements GlobalFilter , Ordered{
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             log.info("executing response for filter");
 
-
             Optional.ofNullable(exchange.getRequest().getHeaders().get("token")).ifPresent(value -> {
                 log.info("token" + value.getFirst());
                 exchange.getResponse().getHeaders().add("token", value.getFirst());
@@ -38,10 +37,9 @@ public class GlobalGatewayFilter implements GlobalFilter , Ordered{
             Optional.ofNullable(exchange.getRequest().getHeaders().get("wave")).ifPresent(value -> {
                 log.info("wave" + value.getFirst());
                 exchange.getResponse().getHeaders().add("wave", value.getFirst());
-            }); 
+            });
 
-
-            exchange.getResponse().getCookies().add("color", ResponseCookie.from("color","Red").build());
+            exchange.getResponse().getCookies().add("color", ResponseCookie.from("color", "Red").build());
             exchange.getResponse().getHeaders().setContentType(MediaType.TEXT_PLAIN);
             exchange.getResponse().getStatusCode().isError();
         }));
@@ -51,5 +49,5 @@ public class GlobalGatewayFilter implements GlobalFilter , Ordered{
     public int getOrder() {
         return 0;
     }
-    
+
 }

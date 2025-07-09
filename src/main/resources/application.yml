@@ -5,8 +5,17 @@ spring:
         name: mscv-gataway
     cloud:
         gateway:
-            #products
             routes:
+
+            #Gateway
+            - id: mcsv-oauth
+              uri: http://localhost:9100
+              predicates:
+              - Path= /api/v1/security/**
+              filters:
+              - StripPrefix=3
+            
+            #Products
             - id: mcsv-products
               uri: http://localhost:8001
               predicates:

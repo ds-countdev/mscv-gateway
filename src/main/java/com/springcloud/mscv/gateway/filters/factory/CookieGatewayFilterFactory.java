@@ -13,12 +13,15 @@ import lombok.Getter;
 import lombok.Setter;
 import reactor.core.publisher.Mono;
 
+// all filter factorry personalized class has to have the postfix GatewayFilterFactory 
+// example name + GatewayFilterFactory
 @Component
-public class CookieGatewayFilterFactory extends AbstractGatewayFilterFactory<CookieGatewayFilterFactory.ConfigurationCookie> {
+public class CookieGatewayFilterFactory
+        extends AbstractGatewayFilterFactory<CookieGatewayFilterFactory.ConfigurationCookie> {
 
     private final Logger log = LoggerFactory.getLogger(CookieGatewayFilterFactory.class);
 
-    public CookieGatewayFilterFactory(){
+    public CookieGatewayFilterFactory() {
         super(ConfigurationCookie.class);
     }
 
