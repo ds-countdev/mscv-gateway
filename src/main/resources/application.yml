@@ -1,0 +1,21 @@
+server: 
+    port: 8090
+spring:
+    application:
+        name: mscv-gataway
+    cloud:
+        gateway:
+            #products
+            routes:
+            - id: mcsv-products
+              uri: http://localhost:8001
+              predicates:
+              - Path= /api/v1/products/**
+              filters:
+              - StripPrefix=3
+              - name: Cookie
+                args:
+                    message: hi
+                    name: user
+                    value: diego
+
