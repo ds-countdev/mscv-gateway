@@ -7,7 +7,7 @@ spring:
         gateway:
             routes:
 
-            #Gateway
+            #Oauth authentication gateway
             - id: mcsv-oauth
               uri: http://localhost:9100
               predicates:
@@ -15,16 +15,40 @@ spring:
               filters:
               - StripPrefix=3
             
-            #Products
+            #Products gateway
             - id: mcsv-products
               uri: http://localhost:8001
               predicates:
               - Path= /api/v1/products/**
               filters:
               - StripPrefix=3
+              #Personalized config
               - name: Cookie
                 args:
                     message: hi
                     name: user
                     value: diego
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: http://127.0.0.1:9100
+        client:
+          registration:
+            client-app:
+              provider: spring #name provider
+              client-id: gataway-app
+              client-secret: 12345
+              authorization-grant-type: authorization_code #U have to define the type on oauth server (authentication server)
+              redirect-uri: http://127.0.0.1:8090/authorized
+              scope:
+              - openid
+              - profile
+              client-name: client-app #the same as above
+          provider:
+            spring: # provider name
+              issuer-uri: http://127.0.0.1:9100
+            
+          
+            
 

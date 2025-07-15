@@ -16,14 +16,13 @@ public class AppController {
     @GetMapping("/authorized")
     public Map<String, String> authorized(@RequestParam String code) {
         var map = new HashMap<String, String>();
-        
         map.put("code", code);
         return map;
     }
 
     @PostMapping("/logout")
     public Map<String, String> logout() {
-        
+
         return Collections.singletonMap("logout", "ok");
     }
 }
